@@ -1,0 +1,5 @@
+config.json
+aidb.sqlite
+response_*.json
+venv/
+__pycache__/
