@@ -42,13 +42,19 @@ Ask a question about your meal plan: quit
 Goodbye!
 ```
 ## More examples of questions this database can answer: 
-  1. "What ingredients do I still need to buy this week (not covered by inventory)?"  
-  2. "Which recipes are planned for this week and what are their calories per         
-  serving?"                                                                           
-  3. "What is the total estimated cost of groceries I need to buy?"                   
-  4. "Which inventory items expire soonest?"
-  5. "Which recipe this week has the most protein per serving?"
-  6. "What is the total protein across all dinners planned this week?"
+## Example Queries and Responses
+
+## Example Queries and Responses
+## Example Queries and Responses
+
+| # | Question | SQL Query | Response |
+|---|---|---|---|
+| **1** | Which recipes are planned for this week and what are their calories per serving? | `SELECT r.name, r.calories / r.servings AS calories_per_serving FROM Planned_meal pm JOIN Planned_meal_recipe pmr ON pm.planned_meal_id = pmr.planned_meal_id JOIN Recipe r ON pmr.recipe_id = r.recipe_id WHERE pm.date BETWEEN date('now','start of week') AND date('now','start of week','+6 days');` | No recipes are currently planned for this week. |
+| **2** | What is the total estimated cost of groceries I need to buy? | `SELECT SUM(i.cost * gli.quantity_needed) AS total_estimated_cost FROM Grocery_list_item gli JOIN Ingredient i ON gli.ingredient_id = i.ingredient_id WHERE gli.covered_by_inventory = FALSE;` | Total estimated grocery cost: **$17.84** |
+| **3** | Which inventory items expire soonest? | `SELECT ingredient_id, expiration_date FROM Inventory ORDER BY expiration_date ASC LIMIT 1;` | The item that expires soonest is **item 26**, expiring on **March 2, 2026**. |
+| **4** | Which recipe this week has the most protein per serving? | `SELECT r.name FROM Recipe r JOIN Planned_meal_recipe pmr ON r.recipe_id = pmr.recipe_id JOIN Planned_meal pm ON pmr.planned_meal_id = pm.planned_meal_id WHERE pm.date BETWEEN date('now','weekday 0','-7 days') AND date('now','weekday 0','-1 day') ORDER BY (r.protein / r.servings) DESC LIMIT 1;` | Highest protein recipe: **Chicken Pesto (4 Meals)** |
+| **5** | What is the total protein across all dinners planned this week? | `SELECT SUM(r.protein) FROM Planned_meal pm JOIN Planned_meal_recipe pmr ON pm.planned_meal_id = pmr.planned_meal_id JOIN Recipe r ON pmr.recipe_id = r.recipe_id WHERE pm.meal_type = 'dinner' AND pm.date BETWEEN DATE('now','weekday 0','-6 days') AND DATE('now','weekday 0');` | Total protein across planned dinners this week: **82 grams** |
+| **6** | What ingredients do I still need to buy this week? | `SELECT i.name, gli.quantity_needed FROM Grocery_list_item gli JOIN Ingredient i ON gli.ingredient_id = i.ingredient_id WHERE gli.covered_by_inventory = 0;` | Chicken Breast (3), Rotini Pasta (2), Mozzarella (3), Pesto (2), Basmati Rice (3), Fajita Seasoning (1), Onion (1), Bell Pepper (1), Mexican Cheese (1), Curry Mix (1), Potatoes (1), Carrot (1), Butter (1), Green Onions (1), Mushrooms (1), Sour Cream (1), White Wine (1), Elbow Macaroni (1), Cheddar (1), Soy Sauce (1), Orange Juice (1), Garlic (1), Ginger (1) |
 ## Things it had a difficult time with: 
 * if the wording of the question was a little off or if you used the word 'recipe' instead of meal it really threw it off
 
