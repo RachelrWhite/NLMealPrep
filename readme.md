@@ -26,7 +26,7 @@ A natural language meal prep assistant that uses GPT-4o and SQLite to answer que
     }
     ```
 
-## Running
+## Running && Example of a query
 
 ```bash
 source venv/bin/activate
