@@ -41,6 +41,19 @@ The recipe with the most protein per serving this week is Chicken Pesto!
 Ask a question about your meal plan: quit
 Goodbye!
 ```
+## More examples of questions this database can answer: 
+  1. "What ingredients do I still need to buy this week (not covered by inventory)?"  
+  2. "Which recipes are planned for this week and what are their calories per         
+  serving?"                                                                           
+  3. "What is the total estimated cost of groceries I need to buy?"                   
+  4. "Which inventory items expire soonest?"
+  5. "Which recipe this week has the most protein per serving?"
+  6. "What is the total protein across all dinners planned this week?"
+## Things it had a difficult time with: 
+* if the wording of the question was a little off or if you used the word 'recipe' instead of meal it really threw it off
+
+## Prompting strategies: 
+* zero shot and Single domain/double shot. For this, I noticed that the double-shot strategy produced more accurate SQL. This is probably because the example gave GPT a hint about which schema's table and columns relate to natural language. 
 
 ## Files
 
